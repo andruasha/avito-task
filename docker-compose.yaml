@@ -1,0 +1,30 @@
+version: '3.3'
+
+services:
+  app:
+    build:
+      context: ./app
+    ports:
+      - "8080:8080"
+    networks:
+      - my_network
+    depends_on:
+      - redis
+
+  redis:
+    build:
+      context: ./redis
+    networks:
+      - my_network
+    command: ["redis-server", "--protected-mode", "no"]
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - "8089:8089"
+    networks:
+      - my_network
+
+networks:
+  my_network:
