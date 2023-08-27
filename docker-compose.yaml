@@ -15,8 +15,9 @@ services:
     build:
       context: ./redis
     networks:
-      - my_network
-    command: ["redis-server", "--protected-mode", "no"]
+      my_network:
+    environment:
+      REDIS_PASSWORD: "hard_password"
 
   nginx:
     build:

@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/redis/go-redis/v9"
 	"log"
 	"net/http"
-	"github.com/redis/go-redis/v9"
 )
 
 var ctx = context.Background()
@@ -83,9 +83,10 @@ func defaultHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	client = redis.NewClient(&redis.Options{
-		Addr: "redis:6379",
-		DB:   0,
-		})
+		Addr:     "redis:6379",
+		Password: "hard_password",
+		DB:       0,
+	})
 
 	http.HandleFunc("/set_key", setKeyHandler)
 	http.HandleFunc("/get_key", getKeyHandler)
