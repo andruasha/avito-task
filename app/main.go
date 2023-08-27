@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"github.com/redis/go-redis/v9"
 )
 
 var ctx = context.Background()
@@ -84,7 +85,7 @@ func main() {
 	client = redis.NewClient(&redis.Options{
 		Addr: "redis:6379",
 		DB:   0,
-	})
+		})
 
 	http.HandleFunc("/set_key", setKeyHandler)
 	http.HandleFunc("/get_key", getKeyHandler)
