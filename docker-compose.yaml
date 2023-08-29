@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
   app:
@@ -6,16 +6,12 @@ services:
       context: ./app
     ports:
       - "8080:8080"
-    networks:
-      - my_network
     depends_on:
       - redis
 
   redis:
     build:
       context: ./redis
-    networks:
-      my_network:
     environment:
       REDIS_PASSWORD: "hard_password"
 
@@ -24,8 +20,3 @@ services:
       context: ./nginx
     ports:
       - "8089:8089"
-    networks:
-      - my_network
-
-networks:
-  my_network:
