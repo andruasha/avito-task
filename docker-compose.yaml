@@ -10,13 +10,30 @@ services:
       - redis
 
   redis:
+    image: docker.io/bitnami/redis:latest
     build:
       context: ./redis
     environment:
-      REDIS_PASSWORD: "hard_password"
+      - ALLOW_EMPTY_PASSWORD=false
+      - REDIS_PASSWORD=hard_password
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+      - REDIS_TLS_CERT_FILE=/tls/redis.crt
+      - REDIS_TLS_KEY_FILE=/tls/redis.key
+      - REDIS_TLS_CA_FILE=/tls/ca.crt
+      - REDIS_TLS_ENABLED=yes
+      - REDIS_TLS_PORT=6379
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis_data:/bitnami/redis/data'
+      - ./tests/tls:/tls
 
   nginx:
     build:
       context: ./nginx
     ports:
       - "8089:8089"
+
+volumes:
+  redis_data:
+    driver: local
